@@ -41,18 +41,18 @@
             <xsl:apply-templates mode="mdRow" select="./ce:DocumentReference"/>
         </div>
 
-        <div class="container border">
+        <div class="container border" ce="">
             <div class="row border">
                 <div class="col-12">
                     <xsl:call-template name="nLoopExceptBr">
                         <!-- call: AttachmentReference, DateInfo -->
-                        <xsl:with-param name="aExcept">!Buyer!ShipTo!Contact!Supplier!ShipTo!DocumentReferenceExtrinsic!</xsl:with-param>
+                        <xsl:with-param name="aExcept">!Buyer!ShipTo!Contact!Supplier!ShipTo!DocumentReference!Comment!IdReference!Extrinsic!</xsl:with-param>
                     </xsl:call-template>
                 </div>
             </div>
         </div>
 
-        <div class="container border">
+        <div class="container border" ce="Comment, IdReference, Extrinsic">
             <xsl:apply-templates mode="mdRow" select="ce:Comment"/>
             <xsl:call-template name="refIntExt_mdRow"/>
         </div>
@@ -66,40 +66,18 @@
             <xsl:for-each select="ce:MovementDetails">
                 <xsl:if test="1 = position()">
                     <div class="row border bg-secondary text-white align-items-center">
-                        <div class="col-1 text-truncate" ce="ce:MovementDetails/@sequenceNumbering"> </div>
-                        <div class="col-1 text-truncate" ce="ce:MovementDetails/@purpose">
+                        <div class="col-2 text-truncate" ce="ce:MovementDetails/@* != @operation"> </div>
                             <xsl:call-template name="getLabel">
                                 <xsl:with-param name="aVal" select="'purpose'"/>
                             </xsl:call-template>
-                        </div>
-                        <div class="col-1 text-truncate" ce="ce:MovementDetails/@movementId">
-                            <xsl:call-template name="getLabel">
-                                <xsl:with-param name="aVal" select="'Id'"/>
-                            </xsl:call-template>
-                        </div>
-                        <div class="col-1 text-truncate" ce="ce:MovementDetails/@movementDate">
-                            <xsl:call-template name="getLabel">
-                                <xsl:with-param name="aVal" select="'Date'"/>
-                            </xsl:call-template>
-                        </div>
                         <div class="col-1 text-truncate" ce="ce:MovementDetails/@operation">
                             <xsl:call-template name="getLabel">
                                 <xsl:with-param name="aVal" select="'ItemDetails@operation'"/>
                             </xsl:call-template>
                         </div>
-                        <div class="col-1 text-truncate" ce="Quantity">
+                        <div class="col-3 text-truncate" ce="Quantity + InitialStock + FinalStock">
                             <xsl:call-template name="getLabel">
                                 <xsl:with-param name="aVal" select="'Quantity'"/>
-                            </xsl:call-template>
-                        </div>
-                        <div class="col-1 text-truncate" ce="InitialStock">
-                            <xsl:call-template name="getLabel">
-                                <xsl:with-param name="aVal" select="'InitialStock'"/>
-                            </xsl:call-template>
-                        </div>
-                        <div class="col-1 text-truncate" ce="FinalStock">
-                            <xsl:call-template name="getLabel">
-                                <xsl:with-param name="aVal" select="'FinalStock'"/>
                             </xsl:call-template>
                         </div>
                         <div class="col-3" ce="ItemDetails">
@@ -107,55 +85,48 @@
                                 <xsl:with-param name="aVal" select="'ItemDetails'"/>
                             </xsl:call-template>
                         </div>
-                        <div class="col-1 text-truncate" ce="OrderDetails">
+                        <div class="col-3 text-truncate" ce="OrderDetails">
                             <xsl:call-template name="getLabel">
                                 <xsl:with-param name="aVal" select="'Order'"/>
                             </xsl:call-template>
                         </div>
                     </div>
                 </xsl:if>
-                <div class="row border" ce="ce:MovementDetails - row 1/3">
-                    <div class="col-1 text-truncate" ce="ce:MovementDetails/@sequenceNumbering">
-                        <xsl:if test="@sequenceNumbering">
+                <div class="row border" ce="ce:MovementDetails - row 1/3 - 5*cols">
+                    <div class="col-2 text-truncate" ce="ce:MovementDetails/@* != @operation">
+                    <xsl:if test="@sequenceNumbering">
+                        <div class="br">
                             <xsl:value-of select="concat('[', @sequenceNumbering, ']')"/>
-                        </xsl:if>
+                        </div>
+                    </xsl:if>
+                    <div class="br">
+                        <xsl:call-template name="getLabel">
+                            <xsl:with-param name="aVal" select="@purpose"/>
+                        </xsl:call-template>
                     </div>
-                    <div class="col-1 text-truncate" ce="ce:MovementDetails/@purpose">
-                        <xsl:value-of select="@purpose"/>
-                    </div>
-                    <div class="col-1 text-truncate" ce="ce:MovementDetails/@movementId">
+                    <div class="br">
                         <xsl:value-of select="@movementId"/>
                     </div>
-                    <div class="col-1 text-truncate" ce="ce:MovementDetails/@movementDate">
+                    <div class="br">
                         <xsl:value-of select="@movementDate"/>
                     </div>
+                    </div>
                     <div class="col-1 text-truncate" ce="ce:MovementDetails/@operation">
-                        <xsl:value-of select="@operation"/>
+                        <xsl:call-template name="getLabel">
+                            <xsl:with-param name="aVal" select="'ItemDetails@operation'"/>
+                        </xsl:call-template>
                     </div>
-                    <div class="col-1 text-truncate" ce="Quantity - IssueQuantity">
-                        <xsl:apply-templates select="ce:Quantity" mode="md_n10"/>
-                        <xsl:if test="ce:IssueQuantity">
-                            <xsl:call-template name="getLabel">
-                                <xsl:with-param name="aVal" select="'IssueQuantity'"/>
-                            </xsl:call-template>
-                            <xsl:apply-templates select="ce:IssueQuantity" mode="md_n10"/>
-                        </xsl:if>
-                    </div>
-                    <div class="col-1 text-truncate" ce="InitialStock">
-                        <xsl:apply-templates select="ce:InitialStock" mode="md_n10"/>
-                    </div>
-                    <div class="col-1 text-truncate" ce="FinalStock">
-                        <xsl:apply-templates select="ce:FinalStock" mode="md_n10"/>
+                    <div class="col-3 text-truncate" ce="Quantity*">
+                        <xsl:apply-templates select="ce:Quantity|ce:IssueQuantity|ce:InitialStock|ce:FinalStock" mode="md_n20"/>
                     </div>
                     <div class="col-3" ce="ItemDetails">
                         <xsl:apply-templates select="ce:ItemDetails"/>
                     </div>
-                    <div class="col-1 text-truncate" ce="OrderDetails">
+                    <div class="col-3 text-truncate" ce="OrderDetails">
                         <xsl:apply-templates select="ce:OrderDetails"/>
                     </div>
-
                 </div>
-                <div class="row border" ce="ce:MovementDetails - row 2/3">
+                <div class="row border" ce="ce:MovementDetails - row 2/3 - 3*cols">
                     <div class="col-4" ce="ShipTo">
                         <xsl:apply-templates select="ce:ShipTo"/>
                     </div>
@@ -174,7 +145,7 @@
                         </xsl:if>
                         <!-- missing elements : should not match-->
                         <xsl:call-template name="nLoopExceptBr">
-                            <xsl:with-param name="aExcet">!Quantity!IssueQuantity!InitialStock!FinalStock!ItemDetails!ShipTo!ShipFrom!OrderDetails!Reason!Comment!Extrinsic!DocumentReference!</xsl:with-param>
+                            <xsl:with-param name="aExcept">!Quantity!IssueQuantity!InitialStock!FinalStock!ItemDetails!ShipTo!ShipFrom!OrderDetails!Reason!Comment!Extrinsic!DocumentReference!</xsl:with-param>
                         </xsl:call-template>
                     </div>
                 </div>
@@ -235,7 +206,7 @@
     <xsl:template match="ce:OrderDetails">
         <xsl:call-template name="nLoopExceptBr">
             <!-- call : OrderReference -->
-            <xsl:with-param name="aEltNameLst">!OrderDesc!IdReference!DocumentReference!Extrinsic!</xsl:with-param>
+            <xsl:with-param name="aExcept">!OrderDesc!IdReference!DocumentReference!Extrinsic!</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
@@ -252,15 +223,15 @@
         </xsl:if>
         <xsl:call-template name="nLoopExceptBr">
             <!-- call : PaperItem | BookItem -->
-            <xsl:with-param name="aEltNameLst">!ItemDescriptionSupplier!ItemDescriptionBuyer!ItemDescription!IdReference!DocumentReference!Comment!Extrinsic!</xsl:with-param>
+            <xsl:with-param name="aExcept">!ItemDescriptionSupplier!ItemDescriptionBuyer!ItemDescription!IdReference!DocumentReference!Comment!Extrinsic!</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
 
-    <xsl:template match="ce:OrderDetails | ce:PaperItem | ce:BookItem">
+    <xsl:template match="ce:PaperItem | ce:BookItem">
         <xsl:call-template name="nLoopExceptBr">
             <!-- call : ... -->
-            <xsl:with-param name="aEltNameLst">!IdReference!DocumentReference!Comment!</xsl:with-param>
+            <xsl:with-param name="aExcept">!IdReference!DocumentReference!Comment!</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 

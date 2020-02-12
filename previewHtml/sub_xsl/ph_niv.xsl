@@ -130,7 +130,8 @@
         <xsl:call-template name="n30"/>
     </xsl:template>
 
-    <xsl:template match="ce:DeliveryItem/ce:OrderRequestPaperItem/ce:PaperBasisWeight">
+    <xsl:template match="ce:DeliveryItem/ce:OrderRequestPaperItem/ce:PaperBasisWeight|/ce:PaperItem/ce:PaperBasisWeight">
+        <!-- dt_delivery | dt_mouvement -->
         <xsl:call-template name="n30"/>
     </xsl:template>
 
@@ -173,9 +174,16 @@
     </xsl:template>
 
 
-
     <xsl:template match="ce:Sheet | ce:Reel">
-        <xsl:call-template name="n30"/>
+        <xsl:choose>
+            <xsl:when test="parent::ce:PaperItem">
+                <!-- dt_mouvement -->
+                <xsl:call-template name="n40"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="n30"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 

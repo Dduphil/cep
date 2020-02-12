@@ -113,7 +113,7 @@
                 <xsl:apply-templates select="ce:Money"/>
                 <div class="ce_stDetail">
                     <xsl:call-template name="nLoopExceptBr">
-                        <xsl:with-param name="aEltNameLst">!Description!Money!</xsl:with-param>
+                        <xsl:with-param name="aExcept">!Description!Money!</xsl:with-param>
                     </xsl:call-template>
                 </div>
             </div>

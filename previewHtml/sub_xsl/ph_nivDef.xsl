@@ -159,7 +159,7 @@
     <!-- Cmt: DIS: lab + apply + br  -->
     <xsl:template name="n30">
         <xsl:comment>
-[n30]</xsl:comment>
+<xsl:value-of select="concat('[n30] ', local-name())"/></xsl:comment>
         <div class="br">
             <xsl:call-template name="labelByTagName"/>
             <xsl:apply-templates/>

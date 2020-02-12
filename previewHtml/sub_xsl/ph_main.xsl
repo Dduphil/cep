@@ -52,24 +52,23 @@ xmlns:i_d="http://internal/data"
     <!-- $pDebug : all debug values as : _noJs_  _var_ ...-->
     <xsl:param name="pDebug"/>
 
-    <!-- #H4# RESOURCES DIRECTORIES -->
+    <!-- #H4# RESOURCES -->
     <!--Cmt: common resouces in "xsl/lib" -->
-    <!-- $pDirPrefXsl : prefix path to 'Schema/xsl' dir  
-    
-    https://raw.githubusercontent.com/e-brochard/ce/master/Schema
-   
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<link rel="preload" href="myFont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    -->
+    <!-- $pDirPrefXsl : prefix path to 'Schema/xsl' dir  -->
     
-  
     
-    <xsl:param name="pDirPrefXsl">https://raw.githubusercontent.com/e-brochard/ce/master/Schema/xsl/</xsl:param>
-
+    <xsl:variable name="optResources">web</xsl:variable>
+    <xsl:param name="pDirPrefXsl">
+        <xsl:choose>
+            <xsl:when test="'web' = $optResources">https://dduphil.github.io/cep</xsl:when>
+            <xsl:otherwise>../../xsl/</xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
+    
     <xsl:variable name="pDirImg" select="concat($pDirPrefXsl, '/lib/img')"/>
+
+    <xsl:variable name="optBootstrap">web-v4</xsl:variable>
     <xsl:variable name="pDirBootStrap" select="concat($pDirPrefXsl, '/lib/bootstrap-4.3.1-dist')"/>
 
     <!-- #H4# KEY FOR SORT -->
@@ -200,7 +199,7 @@ xmlns:i_d="http://internal/data"
                 <link rel="stylesheet" href="{concat($pDirPrefXsl, '/previewHtml/css/previewHtml.css')}"/>
             </xsl:when>
             <xsl:when test="'webCss' = $optCss">
-                <link rel="stylesheet" href="{concat($pDirPrefXsl, '/previewHtml/css/previewHtml.css')}" crossorigin="anonymous" X-contrent-T/>
+                <link rel="stylesheet" href="{concat($pDirPrefXsl, '/previewHtml/css/previewHtml.css')}" crossorigin="anonymous"/>
             </xsl:when>
             <xsl:otherwise>
                 <error msg="{concat('tplAddCeCss $optCss (', $optCss, ')' )}"/>
@@ -208,7 +207,6 @@ xmlns:i_d="http://internal/data"
         </xsl:choose>
     </xsl:template>
 
-    <xsl:variable name="optBootstrap">web-v4</xsl:variable>
 
     <xsl:template name="tplAddBootstapCss">
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
