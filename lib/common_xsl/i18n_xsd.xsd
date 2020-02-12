@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://internal/data" xmlns:i18n="http://internal/data">
+    <xs:element name="labels">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="i18n:lb"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="lb">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="i18n:en" minOccurs="0"/>
+                <xs:element ref="i18n:fr" minOccurs="0"/>
+                <xs:element ref="i18n:foo" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="l" use="optional">
+                <xs:annotation>
+                    <xs:documentation>nom d'une liste, exemple : "contact_role_list_type" du xsd</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="k" use="required" type="xs:token">
+                <xs:annotation>
+                    <xs:documentation>clef</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="m" use="optional">
+                <xs:annotation>
+                    <xs:documentation>un message</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="s" use="optional">
+                <xs:annotation>
+                    <xs:documentation>source, par exemple 'xsd', 'man'(manuel) </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="en" type="xs:string"/>
+    <xs:element name="fr" type="xs:string"/>
+    <xs:element name="foo" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>element 'foo' pour test</xs:documentation>
+        </xs:annotation>        
+    </xs:element>
+</xs:schema>
